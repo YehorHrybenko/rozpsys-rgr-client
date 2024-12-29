@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class DroneManager : MonoBehaviour
@@ -64,7 +65,7 @@ public class DroneManager : MonoBehaviour
                 sumForce += Vector3.ProjectOnPlane(alignmentForce, transform.forward);
             }
 
-            var newVelocity = NormalizeSpeed(Swarm.Controls.TryGetValue(d.ID, out var c) ? c : Vector3.zero + sumForce * Time.fixedDeltaTime);
+            var newVelocity = NormalizeSpeed((Swarm.Controls.TryGetValue(d.ID, out var c) ? c : Vector3.zero) + sumForce * Time.fixedDeltaTime);
             Swarm.Controls[d.ID] = newVelocity;
         }
     }
