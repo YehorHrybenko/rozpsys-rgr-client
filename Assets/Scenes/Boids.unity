@@ -824,9 +824,6 @@ GameObject:
   - component: {fileID: 511399790}
   - component: {fileID: 511399789}
   - component: {fileID: 511399791}
-  - component: {fileID: 511399792}
-  - component: {fileID: 511399793}
-  - component: {fileID: 511399795}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -878,49 +875,6 @@ MonoBehaviour:
   spawnCount: 100
   minBounds: {x: 0, y: 0, z: 0}
   maxBounds: {x: 100, y: 100, z: 100}
---- !u!114 &511399792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 511399788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99d4c7a512fb08441a63cf6cdafefe05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &511399793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 511399788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ada22093484a9054095d8f8bbfe91baa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boidSpeed: 10
-  minBounds: {x: 0, y: 0, z: 0}
-  maxBounds: {x: 100, y: 100, z: 100}
-  separationFactor: 10
-  cohesionFactor: 1
-  alignmentFactor: 1
-  forceDistance: 20
---- !u!114 &511399795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 511399788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35a5e91f046ca63488946ddb8d3fea1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &518098577
 GameObject:
   m_ObjectHideFlags: 0

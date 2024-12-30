@@ -1,24 +1,22 @@
-using System.Linq;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class DroneManager : MonoBehaviour
+public class DroneManager 
 {
+    static float boidSpeed = 10f;
+    static float separationFactor = 10f;
+    static float cohesionFactor = 1f;
+    static float alignmentFactor = 10f;
+    static float forceDistance = 20.0f;
 
-
-    [SerializeField] float boidSpeed = 10f;
-    [SerializeField] Vector3 minBounds = new (0, 0, 0);
-    [SerializeField] Vector3 maxBounds = new (10, 10, 10);
-    [SerializeField] float separationFactor = 1.0f;
-    [SerializeField] float cohesionFactor = 1f;
-    [SerializeField] float alignmentFactor = 1f;
-    [SerializeField] float forceDistance = 10.0f;
-
-    private void FixedUpdate()
+    public static Dictionary<Guid, Vector3> UpdateDrones(Dictionary<Guid, SwarmServer.DroneData> Drones)
     {
+        Dictionary<Guid, Vector3> result = new();
         float forceFactorSqr = separationFactor * separationFactor;
         float forceDistanceSqr = forceDistance * forceDistance;
 
-        foreach (Drone d in Swarm.Drones.Values)
+        foreach (var (k, d) in Drones)
         {
             Vector3 sumForce = Vector3.zero;
             Vector3 positionSum = Vector3.zero;
@@ -26,16 +24,14 @@ public class DroneManager : MonoBehaviour
 
             Vector3 directionSum = Vector3.zero;
             
-            var t = d.transform;
-            var pos = t.position;
-            RestrictBounds(t);
+            var pos = d.position;
 
             //TODO: Optimize
-            foreach (Drone other in Swarm.Drones.Values)
+            foreach (var (other_k, other_d) in Drones)
             {
-                if (other != d)
+                if (other_k != k)
                 {
-                    var otherPos = other.transform.position;
+                    var otherPos = other_d.position;
 
                     var diff = otherPos - pos;
                     var dstSquared = Vector3.SqrMagnitude(diff);
@@ -51,50 +47,30 @@ public class DroneManager : MonoBehaviour
                         visibleCount++;
 
                         // Alignment
-                        directionSum += other.transform.forward;
+                        directionSum += other_d.velocity;
                     }
                 }
-
-
             }
 
             if (visibleCount != 0)
             {
                 sumForce += (positionSum / visibleCount - pos) * cohesionFactor;
                 var alignmentForce = (directionSum / visibleCount).normalized * alignmentFactor;
-                sumForce += Vector3.ProjectOnPlane(alignmentForce, transform.forward);
+                sumForce += Vector3.ProjectOnPlane(alignmentForce, d.velocity);
             }
 
-            var newVelocity = NormalizeSpeed((Swarm.Controls.TryGetValue(d.ID, out var c) ? c : Vector3.zero) + sumForce * Time.fixedDeltaTime);
-            Swarm.Controls[d.ID] = newVelocity;
+            //var newVelocity = NormalizeSpeed((Swarm.Controls.TryGetValue(k, out var c) ? c : Vector3.zero) + sumForce * Time.fixedDeltaTime);
+            var newVelocity = NormalizeSpeed(d.velocity + sumForce * Time.fixedDeltaTime);
+
+            result[k] = newVelocity;
         }
+        return result;
     }
 
-    public Vector3 NormalizeSpeed(Vector3 velocity)
+    public static Vector3 NormalizeSpeed(Vector3 velocity)
     {
         var changedSpeed = velocity.magnitude;
         return velocity.normalized * Mathf.Clamp(changedSpeed, boidSpeed / 2, boidSpeed);
     }
 
-    private void RestrictBounds(Transform d)
-    {
-        var pos = d.position;
-
-        if (pos.x < minBounds.x)
-            pos.x = maxBounds.x;
-        else if (pos.x > maxBounds.x)
-            pos.x = minBounds.x;
-
-        if (pos.y < minBounds.y)
-            pos.y = maxBounds.y;
-        else if (pos.y > maxBounds.y)
-            pos.y = minBounds.y;
-
-        if (pos.z < minBounds.z)
-            pos.z = maxBounds.z;
-        else if (pos.z > maxBounds.z)
-            pos.z = minBounds.z;
-
-        d.transform.position = pos;
-    }
 }

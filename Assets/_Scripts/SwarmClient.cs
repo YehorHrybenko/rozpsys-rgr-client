@@ -1,32 +1,20 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using static SwarmServer;
 
-public class SwarmClient: MonoBehaviour
+public static class SwarmClient
 {
-    public static SwarmClient Instance { get; private set; }
-
-    private void Awake()
+    public static Dictionary<Guid, Vector3> UpdateGroup(Dictionary<Guid, DroneData> groupData)
     {
-        Instance = this;
+        //Drones = groupData;
+        return DroneManager.UpdateDrones(groupData);
     }
 
-    public void Register(Guid droneId, Drone drone)
-    {
-        Swarm.Drones[droneId] = drone;
-    }
+    public static (bool, Leadable) GetLeader(Leadable leadable) => SwarmServer.GetLeader(leadable);
 
-    public Vector3 GetControls(Guid drone)
-    {
-        return Swarm.Controls.TryGetValue(drone, out Vector3 controls) ? controls : Vector3.zero;
-    }
-
-    public void SendData()
-    {
-
-    }
-
-    public void Unregister(Guid droneId)
-    {
-        Swarm.Drones.Remove(droneId);
-    }
+    //public static void Unregister(Guid droneId)
+    //{
+    //    Drones.Remove(droneId);
+    //}
 }
