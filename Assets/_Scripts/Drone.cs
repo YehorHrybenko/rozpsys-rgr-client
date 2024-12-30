@@ -10,13 +10,9 @@ public class Drone : Leadable
     [SerializeField] Vector3 minBounds = new (0, 0, 0);
     [SerializeField] Vector3 maxBounds = new (10, 10, 10);
 
-    private Leadable leader;
-
-    void Start()
+    protected override void Start()
     {
-        var (isMe, leader) = SwarmClient.GetLeader(this);
-        this.leader = leader;
-        isLeader = isMe;
+        base.Start();
         UpdateControls();
     }
 

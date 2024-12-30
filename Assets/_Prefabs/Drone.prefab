@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1071c59a36fe08240908712c511c80cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leadMaterial: {fileID: 2100000, guid: 7845805d2b353d8479beed90d70ee63d, type: 2}
+  commonMaterial: {fileID: 2100000, guid: 3f5995063e483ab448d3e2a8b6a4156a, type: 2}
+  meshRenderer: {fileID: 1899933980088992591}
   minBounds: {x: 0, y: 0, z: 0}
   maxBounds: {x: 100, y: 100, z: 100}
 --- !u!1001 &980797643632713675
@@ -114,7 +117,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: fa6e58ee80a4be546926040f80f673fd, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7845805d2b353d8479beed90d70ee63d, type: 2}
+      objectReference: {fileID: 2100000, guid: 3f5995063e483ab448d3e2a8b6a4156a, type: 2}
     - target: {fileID: 919132149155446097, guid: fa6e58ee80a4be546926040f80f673fd, type: 3}
       propertyPath: m_Name
       value: Texture
@@ -127,5 +130,10 @@ PrefabInstance:
 --- !u!4 &726987466887264288 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fa6e58ee80a4be546926040f80f673fd, type: 3}
+  m_PrefabInstance: {fileID: 980797643632713675}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1899933980088992591 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: fa6e58ee80a4be546926040f80f673fd, type: 3}
   m_PrefabInstance: {fileID: 980797643632713675}
   m_PrefabAsset: {fileID: 0}
