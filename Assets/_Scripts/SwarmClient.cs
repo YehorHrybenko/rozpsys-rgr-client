@@ -26,9 +26,13 @@ public class SwarmClient : MonoBehaviour
 
     public void UpdateRequest(Dictionary<int, DroneData> data)
     {
-        var requestData = JsonConvert.SerializeObject(new Dictionary<string, string>() { 
-            ["droneCount"] = data.Count.ToString(), 
-            ["data"] = JsonConvert.SerializeObject(data) 
+        var tgt = SwarmTargetManager.currentTarget.transform.position;
+
+        var requestData = JsonConvert.SerializeObject(new Dictionary<string, string>() {
+            ["droneCount"] = data.Count.ToString(),
+            ["data"] = JsonConvert.SerializeObject(data),
+            ["altitude"] = 20f.ToString(),
+            ["target"] = JsonConvert.SerializeObject(SerializableVector.FromVector3(tgt))
         });
 
         var res = Task.Run(async () =>
@@ -60,5 +64,5 @@ public class SwarmClient : MonoBehaviour
 
     public static void UpdateGroup(Dictionary<int, DroneData> groupData) => Instance.UpdateRequest(groupData); 
 
-    public static (bool, Leadable) GetLeader(Leadable leadable) => SwarmServer.GetLeader(leadable);
+    public static (bool, Leadable) GetLeader(Leadable leadable) => SwarmRoles.GetLeader(leadable);
 }

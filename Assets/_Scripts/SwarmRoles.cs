@@ -1,7 +1,6 @@
 
-public class SwarmServer 
+public class SwarmRoles 
 {
-
     private static Leadable leader; 
 
     public static (bool, Leadable) GetLeader(Leadable client)

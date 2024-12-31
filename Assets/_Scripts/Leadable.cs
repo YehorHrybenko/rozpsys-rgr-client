@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static SwarmData;
-using static SwarmServer;
+using static SwarmRoles;
 
 public abstract class Leadable : MonoBehaviour
 {
@@ -16,11 +16,16 @@ public abstract class Leadable : MonoBehaviour
     }
 
     private bool isLeader = false;
-    protected Leadable leader;
+    protected Leadable leader { get; private set; }
     private LeadershipData leadership = null;
     private int frame = 0;
     
     protected virtual void Start()
+    {
+        UpdateLeader();
+    }
+
+    private void UpdateLeader()
     {
         var (isMe, leader) = SwarmClient.GetLeader(this);
         this.leader = leader;
@@ -31,6 +36,8 @@ public abstract class Leadable : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
+        if (leader == null) UpdateLeader();
+        
         if (!isLeader || frame++ % 2 != 0) return;
         SwarmClient.UpdateGroup(leadership.group);
     }
