@@ -4,8 +4,8 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField] private GameObject prefab;
     [SerializeField] private int spawnCount = 10;
-    [SerializeField] private Vector3 minBounds = new Vector3(0, 0, 0);
-    [SerializeField] private Vector3 maxBounds = new Vector3(10, 10, 10);
+    [SerializeField] private Vector3 minBounds = new(0, 0, 0);
+    [SerializeField] private Vector3 maxBounds = new(10, 10, 10);
 
     private void Start()
     {

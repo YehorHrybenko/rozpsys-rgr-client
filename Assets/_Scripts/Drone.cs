@@ -1,10 +1,11 @@
 using System;
 using UnityEngine;
-using static SwarmServer;
+using static SwarmData;
 
 public class Drone : Leadable
 {
-    public Guid ID { get; } = Guid.NewGuid();
+    private static int newDroneID = 0;
+    public int ID { get; } = GetNewDroneID();
     private Vector3 velocity = Vector3.zero;
 
     [SerializeField] Vector3 minBounds = new (0, 0, 0);
@@ -18,6 +19,8 @@ public class Drone : Leadable
 
     protected override void FixedUpdate()
     {
+        base.FixedUpdate();
+
         RestrictBounds(transform);
         var targetVelocity = UpdateControls();
         transform.position += targetVelocity * Time.fixedDeltaTime;
@@ -26,27 +29,13 @@ public class Drone : Leadable
         {
             transform.rotation = Quaternion.LookRotation(targetVelocity);
         }
-        base.FixedUpdate();
     }
 
     private Vector3 UpdateControls()
     {
-        var data = new DroneData() { position = transform.position, velocity = velocity };
+        var data = new DroneData(transform.position, velocity);
         return leader.UpdateDrone(ID, data);
     }
-    //private void SendData() 
-    //{
-    //    if (leader != null)
-    //    {
-    //        //LeaderClient.
-    //    }
-    //    //SwarmClient.SendData(ID, data);
-    //}
-
-    //private void OnDestroy()
-    //{
-    //    SwarmClient.Unregister(ID);
-    //}
 
     private void RestrictBounds(Transform d)
     {
@@ -68,5 +57,10 @@ public class Drone : Leadable
             pos.z = minBounds.z;
 
         d.transform.position = pos;
+    }
+
+    public static int GetNewDroneID()
+    {
+        return newDroneID++;
     }
 }
